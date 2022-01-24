@@ -1,5 +1,5 @@
 import csv
-
+improt lambda
 
 
 csvpath ="PyPoll/Resources/election_data.csv"
@@ -35,13 +35,15 @@ with open(csvpath, "r") as csvfile:
            cand_dict["Correy"] += 1
 
        elif row[2]== "Li":
-           cand_dict["Li"] += 1
+           cand_dict["Li"] += 1 
        else:
            cand_dict["O'Tooley"] += 1
            
         
         
-
+sort_cand_dict = sorted(cand_dict.items(), key=lambda x:x[1], reverse=True)
+for i in sort_cand_dict:
+    print(i[0], i[1])
        
       
 # https://stackoverflow.com/questions/20457038/how-to-round-to-2-decimals-with-python
