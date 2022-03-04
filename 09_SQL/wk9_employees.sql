@@ -1,4 +1,11 @@
-﻿CREATE TABLE "departments" (
+﻿Drop Table if exists departments Cascade;
+Drop Table if exists dept_emp Cascade;
+Drop Table if exists dept_manager Cascade;
+Drop Table if exists employees Cascade;
+Drop Table if exists salaries Cascade;
+Drop Table if exists title Cascade;
+
+CREATE TABLE "departments" (
     "id" Serial  NOT NULL,
     "dept_no" varchar(10)   NOT NULL Unique,
     "dept_name" varchar(30),
@@ -167,7 +174,7 @@ Group by
 	last_name
 ORDER BY 
 	count desc 
-Limit 50
+Limit 50;
 
 
 
