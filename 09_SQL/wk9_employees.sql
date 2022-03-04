@@ -176,5 +176,22 @@ ORDER BY
 	count desc 
 Limit 50;
 
+#Bonus
+Select 
+	t.title, avg(s.salary) as avg_salary
+From
+	salaries as s
+	join employees as e on e.emp_no=s.emp_no
+	join title as t on e.emp_title_id=t.title_id
+group by 
+	t.title
+order by 
+	avg_salary desc;
 
+Select 
+	e.emp_no, e.first_name, e.last_name, e.sex, s.salary
+from
+	employees as e
+join salaries as s on e.emp_no=s.emp_no
+Where e.emp_no=499942;
 
