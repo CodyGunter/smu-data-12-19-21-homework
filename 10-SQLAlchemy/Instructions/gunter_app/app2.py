@@ -24,34 +24,69 @@ def welcome():
         f"Available Routes:<br/>"
         f"""
         <ul>
+            <h1>Surfs Up in Honolulu</h1>
+            <br>
             <li><a href='/api/v1.0/precipitation'>/api/v1.0/precipitation</a></li>
-             <li><a href='/api/v1.0/2016-06-01/2016-08-31'>/api/v1.0/2016-06-01/2016-08-31</a></li>
+            <li><a href='/api/v1.0/stations'>/api/v1.0/stations</a></li>
+            <li><a href='/api/v1.0/tobs'>/api/v1.0/tobs</a></li>
+            <li><a href='/api/v1.0/2012-01-12/2012-04-11'>/api/v1.0/2012-01-12/2012-04-11</a></li>
         </ul
         """
     )
 
 @app.route("/api/v1.0/precipitation")
-def getPrcp():
+def prcp():
     conn = engine.connect()
     query = """
-        SELECT
-            date,
-            station,
-            prcp
-        FROM
-            measurement
-        ORDER BY
-            date asc,
-            station asc
-        """
-
+            Select
+                date, station, prcp
+            From
+                measurement
+            Order By 
+                date asc;
+            """
     df = pd.read_sql(query, conn)
-    conn.close()
+    conn.close
     data = df.to_dict(orient="records")
     return(jsonify(data))
 
+
+
+@app.route("/api/v1.0/stations")
+def stations():
+   conn = engine.connect()
+   query = """
+            Select Distinct
+                station
+            From
+                station
+            """
+   df = pd.read_sql(query, conn)
+   conn.close
+   data = df.to_dict(orient="records")
+   return(jsonify(data))
+
+
+@app.route("/api/v1.0/tobs")
+def tobs():
+    conn = engine.connect()
+    query = """
+            Select
+                date, station, tobs
+            From
+                measurement
+            where
+                date >= '2016-08-23'
+                And station = 'USC00519281';
+             """
+    df = pd.read_sql(query, conn)
+    conn.close
+    data = df.to_dict(orient="records")
+    return(jsonify(data))
+
+
 @app.route("/api/v1.0/<start>/<end>")
-def getTempRanges(start, end):
+def range(start, end):
     conn = engine.connect()
     query = f"""
         SELECT
@@ -66,9 +101,11 @@ def getTempRanges(start, end):
         """
 
     df = pd.read_sql(query, conn)
-    conn.close()
+    conn.close
     data = df.to_dict(orient="records")
     return(jsonify(data))
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
